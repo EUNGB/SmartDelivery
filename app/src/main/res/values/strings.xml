@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SmartDelivery</string>
+    <string name="app_title">Smart Delivery</string>
+    <string name="product_name">상품명</string>
+    <string name="track_id">운송번호</string>
+    <string name="carrier">택배사</string>
+    <string name="track">조회하기</string>
+    <string name="helper_track_id">-제외하고 입력해주세요</string>
+</resources>

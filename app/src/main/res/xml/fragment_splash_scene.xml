@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="2000"
+        motion:autoTransition="animateToEnd"
+        motion:motionInterpolator="easeInOut">
+       <KeyFrameSet>
+
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_truck"
+               motion:framePosition="10"
+               android:translationX="30dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_truck"
+               motion:framePosition="20"
+               android:translationX="100dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_truck"
+               motion:framePosition="30"
+               android:translationX="400dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_truck"
+               motion:framePosition="100"
+               android:translationX="3000dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_truck"
+               motion:framePosition="60"
+               android:translationX="500dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_truck"
+               motion:framePosition="80"
+               android:translationX="800dp" />
+
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_box"
+               motion:framePosition="30"
+               android:translationY="0dp" />
+
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_box"
+               motion:framePosition="40"
+               android:translationY="100dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_box"
+               motion:framePosition="45"
+               android:translationY="300dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_box"
+               motion:framePosition="50"
+               android:translationY="400dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_box"
+               motion:framePosition="60"
+               android:translationY="300dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_box"
+               motion:framePosition="70"
+               android:translationY="400dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_box"
+               motion:framePosition="75"
+               android:translationY="350dp" />
+
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_box"
+               motion:framePosition="85"
+               android:translationY="400dp" />
+
+           <KeyAttribute
+               motion:motionTarget="@+id/iv_box"
+               motion:framePosition="100"
+               android:translationY="400dp" />
+           <KeyAttribute
+               motion:motionTarget="@+id/tv_title"
+               motion:framePosition="74"
+               android:translationY="420dp"
+               android:alpha="0"/>
+           <KeyAttribute
+               motion:motionTarget="@+id/tv_title"
+               motion:framePosition="75"
+               android:translationY="420dp"
+               android:alpha="1"/>
+
+           <KeyAttribute
+               motion:motionTarget="@+id/tv_title"
+               motion:framePosition="100"
+               android:translationY="420dp"
+               android:alpha="1"/>
+       </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:layout_height="160dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="160dp"
+            android:id="@+id/iv_truck"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp" />
+        <Constraint
+            android:layout_height="120dp"
+            android:layout_width="120dp"
+            android:id="@+id/iv_box"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="-120dp" />
+        <Constraint
+            android:id="@+id/tv_title"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/iv_box"
+            android:alpha="0"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/tv_title"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/iv_box"
+            android:alpha="0"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp" />
+        <Constraint
+            android:id="@+id/iv_truck"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="20dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/iv_box"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="-120dp" />
+    </ConstraintSet>
+</MotionScene>
