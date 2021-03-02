@@ -25,6 +25,7 @@ class DefaultViewModel(
             }
 
             override fun onError(throwable: Throwable) {
+
             }
 
             override fun onLoading() {

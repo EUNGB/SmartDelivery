@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.weedscomm.smartdelivery.view.add.AddViewModel" />
@@ -119,7 +119,7 @@
             android:enabled="@{viewModel.isEnabledModeLiveData}"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:onClick="@{()->viewModel.trackClick()}"
+            android:onClick="@{(v)->viewModel.trackClick(v)}"
             android:text="@string/track"
             android:textColor="@color/white"
             android:textSize="18sp"

@@ -9,7 +9,7 @@
         android:id="@+id/splashFragment"
         android:name="com.weedscomm.smartdelivery.view.SplashFragment"
         android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_mainFragment"
             app:destination="@id/mainFragment"
@@ -34,7 +34,13 @@
         android:id="@+id/addFragment"
         android:name="com.weedscomm.smartdelivery.view.add.AddFragment"
         android:label="AddFragment"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_add">
+        <action
+            android:id="@+id/action_addFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/addFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/detailFragment"

@@ -11,20 +11,23 @@ import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.weedscomm.smartdelivery.R
 import com.weedscomm.smartdelivery.databinding.FragmentAddBinding
 import com.weedscomm.smartdelivery.models.entity.Carriers
+import com.weedscomm.smartdelivery.utils.ProgressDialog
 import com.weedscomm.smartdelivery.utils.Utils
 import com.weedscomm.smartdelivery.view.DefaultViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AddFragment: Fragment() {
+class AddFragment : Fragment() {
 
     private lateinit var binding: FragmentAddBinding
     private val defaultViewModel: DefaultViewModel by viewModel()
     private val viewModel: AddViewModel by viewModel()
+    private lateinit var progressDialog: ProgressDialog
 
-    private val textWatcher = object : TextWatcher{
+    private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
         }
 
@@ -32,9 +35,10 @@ class AddFragment: Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if(binding.etCarrier.text.toString() != "" &&
-                    binding.etProductName.text.toString() != "" &&
-                    binding.etTrackId.text.toString()!="") {
+            if (binding.etCarrier.text.toString() != "" &&
+                binding.etProductName.text.toString() != "" &&
+                binding.etTrackId.text.toString() != ""
+            ) {
                 viewModel.isEnabledModeLiveData.postValue(true)
             } else {
                 viewModel.isEnabledModeLiveData.postValue(false)
@@ -58,11 +62,13 @@ class AddFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressDialog = ProgressDialog(R.layout.dialog_progress)
+
         defaultViewModel.carrierListLiveData.value?.let {
             viewModel.carrierListLiveData.value = it
         }
         viewModel.carrierListLiveData.observe(viewLifecycleOwner, Observer {
-            if(it.isNotEmpty()) bindingCarriers(it)
+            if (it.isNotEmpty()) bindingCarriers(it)
         })
 
         viewModel.carrierLiveData.observe(viewLifecycleOwner, Observer {
@@ -72,11 +78,20 @@ class AddFragment: Fragment() {
         binding.etCarrier.addTextChangedListener(textWatcher)
         binding.etTrackId.addTextChangedListener(textWatcher)
         binding.etProductName.addTextChangedListener(textWatcher)
-        binding.etCarrier.onFocusChangeListener = View.OnFocusChangeListener{ v, hasFocus ->
-            if(hasFocus){
+        binding.etCarrier.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
                 Utils.hideKeyboard(requireActivity())
             }
         }
+
+        viewModel.loadingLiveData.observe(viewLifecycleOwner, ::loading)
+        viewModel.navigationLivaData.observe(viewLifecycleOwner, {
+            when (it) {
+                AddViewModel.Navigation.MAIN_VIEW -> {
+                    findNavController().navigate(R.id.action_addFragment_to_mainFragment)
+                }
+            }
+        })
     }
 
     fun bindingCarriers(list: List<Carriers>) {
@@ -85,5 +100,18 @@ class AddFragment: Fragment() {
         }
         val adapter = ArrayAdapter(requireContext(), R.layout.item_carriers, carries)
         binding.etCarrier.setAdapter(adapter)
+    }
+
+    private fun loading(event: AddViewModel.Loading) {
+        when (event) {
+            AddViewModel.Loading.ON_LOADING -> {
+                progressDialog.show(requireActivity().supportFragmentManager, null)
+            }
+            AddViewModel.Loading.ON_LOADED -> {
+                if (progressDialog.isVisible) {
+                    progressDialog.dismiss()
+                }
+            }
+        }
     }
 }
