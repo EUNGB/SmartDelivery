@@ -110,4 +110,7 @@ dependencies {
 
     // TimeLine View
     implementation 'com.github.vipulasri:timelineview:1.1.5'
+
+    // RecyclerView Swipe
+    implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
 }

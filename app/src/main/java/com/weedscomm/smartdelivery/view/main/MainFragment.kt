@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.weedscomm.smartdelivery.R
 import com.weedscomm.smartdelivery.databinding.FragmentMainBinding
+import com.weedscomm.smartdelivery.models.entity.DeliveryEntity
+import com.weedscomm.smartdelivery.utils.ProgressDialog
 import com.weedscomm.smartdelivery.utils.debug
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,14 +24,12 @@ class MainFragment : Fragment() {
 
     lateinit var binding: FragmentMainBinding
     private val viewModel: MainViewModel by viewModel()
+    private lateinit var progressDialog: ProgressDialog
 
-    lateinit var viewAdapter: MainViewAdapter
+    //    lateinit var viewAdapter: MainViewAdapter
+    var viewAdapter: DeliveryRecyclerViewAdapter? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -39,6 +39,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressDialog = ProgressDialog(R.layout.dialog_progress).getInstance()
 
         viewModel.navigationLivaData.observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -60,23 +61,41 @@ class MainFragment : Fragment() {
         }
 
         viewModel.allDeliveriesLiveData.observe(viewLifecycleOwner, {
-            debug(it.toString())
             if (it.isNotEmpty()) {
-                viewAdapter = MainViewAdapter(it.toMutableList())
-                binding.rvDelivery.adapter = viewAdapter
-                binding.rvDelivery.layoutManager = LinearLayoutManager(requireActivity())
-
-                viewAdapter.setItemClickListener(object : MainViewAdapter.ItemClickListener {
-                    override fun onClick(position: Int, view: View) {
-                        val trackId = it[position].trackId
-                        val carrierId = it[position].carrierId
-
-                        viewModel.getProgress(trackId, carrierId)
-                    }
-                })
+                setRecyclerView(it.toMutableList())
             }
         })
 
+        viewModel.loadingLiveData.observe(viewLifecycleOwner, ::loading)
+
+    }
+
+    private fun setRecyclerView(list: MutableList<DeliveryEntity>) {
+        viewAdapter = DeliveryRecyclerViewAdapter(list, viewModel)
+        binding.rvDelivery.adapter = viewAdapter
+        binding.rvDelivery.layoutManager = LinearLayoutManager(requireActivity())
+
+        viewAdapter?.setItemClickListener(object : DeliveryRecyclerViewAdapter.ItemClickListener {
+            override fun onClick(position: Int, view: View) {
+                val trackId = list[position].trackId
+                val carrierId = list[position].carrierId
+
+                viewModel.getProgress(trackId, carrierId, requireActivity())
+            }
+        })
+    }
+
+    private fun loading(event: MainViewModel.Loading) {
+        when (event) {
+            MainViewModel.Loading.ON_LOADING -> {
+                progressDialog.show(requireActivity().supportFragmentManager, null)
+            }
+            MainViewModel.Loading.ON_LOADED -> {
+                if (progressDialog.isVisible) {
+                    progressDialog.dismiss()
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
