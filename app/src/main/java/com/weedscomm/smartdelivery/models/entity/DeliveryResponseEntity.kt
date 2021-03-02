@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 
-data class DeliveryResponseEntity (
+data class DeliveryResponseEntity(
     val from: From,
     val to: To,
     val state: State,
@@ -29,7 +29,7 @@ data class DeliveryResponseEntity (
     )
 
     @Parcelize
-    data class Progresses (
+    data class Progresses(
         val location: Location,
         val status: Status,
         val time: String,
@@ -37,12 +37,13 @@ data class DeliveryResponseEntity (
     ) : Parcelable {
 
         @Parcelize
-        data class Location (
+        data class Location(
             val name: String
         ) : Parcelable
 
         @Parcelize
-        data class Status (
+        data class Status(
+            val id: String,
             val text: String
         ) : Parcelable
     }

@@ -6,4 +6,9 @@
     <string name="carrier">택배사</string>
     <string name="track">조회하기</string>
     <string name="helper_track_id">-제외하고 입력해주세요</string>
+    <string name="receipt">상품인수</string>
+    <string name="product_transit">상품이동중</string>
+    <string name="product_warehouse">배송지도착</string>
+    <string name="delivery_start">배송출발</string>
+    <string name="delivered">배송완료</string>
 </resources>

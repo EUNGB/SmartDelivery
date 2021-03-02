@@ -2,13 +2,19 @@ package com.weedscomm.smartdelivery.view.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.vipulasri.timelineview.TimelineView
 import com.weedscomm.smartdelivery.R
 import com.weedscomm.smartdelivery.databinding.ItemTimeLineBinding
 import com.weedscomm.smartdelivery.models.entity.DeliveryResponseEntity
+import com.weedscomm.smartdelivery.utils.Configurations.AT_PICKUP
+import com.weedscomm.smartdelivery.utils.Configurations.DELIVERED
+import com.weedscomm.smartdelivery.utils.Configurations.IN_TRANSIT
+import com.weedscomm.smartdelivery.utils.Configurations.OUT_FOR_DELIVERY
 import com.weedscomm.smartdelivery.utils.debug
+import org.w3c.dom.Text
 
 class TimeLineAdapter(private var list: ArrayList<DeliveryResponseEntity.Progresses>) : RecyclerView.Adapter<TimeLineAdapter.TimeLineViewHolder>() {
 
@@ -19,7 +25,6 @@ class TimeLineAdapter(private var list: ArrayList<DeliveryResponseEntity.Progres
 
         fun bind(progresses: DeliveryResponseEntity.Progresses) {
             binding.progress = progresses
-
         }
     }
 
